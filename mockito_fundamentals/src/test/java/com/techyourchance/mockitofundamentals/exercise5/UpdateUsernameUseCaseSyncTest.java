@@ -9,7 +9,10 @@ import com.techyourchance.mockitofundamentals.exercise5.users.UsersCache;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
 
@@ -18,11 +21,11 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
+@RunWith(MockitoJUnitRunner.class)
 public class UpdateUsernameUseCaseSyncTest
 {
     public static final String USER_NAME = "user_name";
@@ -30,16 +33,13 @@ public class UpdateUsernameUseCaseSyncTest
     
     UpdateUsernameUseCaseSync SUT;
     
-    UpdateUsernameHttpEndpointSync endpointSync;
-    UsersCache usersCache;
-    EventBusPoster eventBusPoster;
+    @Mock UpdateUsernameHttpEndpointSync endpointSync;
+    @Mock UsersCache usersCache;
+    @Mock EventBusPoster eventBusPoster;
     
     @Before
     public void setUp()
     {
-        endpointSync = mock(UpdateUsernameHttpEndpointSync.class);
-        usersCache = mock(UsersCache.class);
-        eventBusPoster = mock(EventBusPoster.class);
         SUT = new UpdateUsernameUseCaseSync(endpointSync, usersCache, eventBusPoster);
     }
     
