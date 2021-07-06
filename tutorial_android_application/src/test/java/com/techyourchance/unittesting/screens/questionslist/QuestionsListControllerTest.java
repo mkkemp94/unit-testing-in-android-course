@@ -23,7 +23,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class QuestionsListControllerTest {
+public class QuestionsListControllerTest
+{
 
     // region constants ----------------------------------------------------------------------------
     private static final List<Question> QUESTIONS = QuestionsTestData.getQuestions();
@@ -40,14 +41,16 @@ public class QuestionsListControllerTest {
     QuestionsListController SUT;
 
     @Before
-    public void setup() throws Exception {
+    public void setup() throws Exception
+    {
         mUseCaseTd = new UseCaseTd();
         SUT = new QuestionsListController(mUseCaseTd, mScreensNavigator, mToastsHelper);
         SUT.bindView(mQuestionsListViewMvc);
     }
 
     @Test
-    public void onStart_progressIndicationShown() throws Exception {
+    public void onStart_progressIndicationShown() throws Exception
+    {
         // Arrange
         // Act
         SUT.onStart();
@@ -56,7 +59,8 @@ public class QuestionsListControllerTest {
     }
 
     @Test
-    public void onStart_successfulResponse_progressIndicationHidden() throws Exception {
+    public void onStart_successfulResponse_progressIndicationHidden() throws Exception
+    {
         // Arrange
         success();
         // Act
@@ -66,7 +70,8 @@ public class QuestionsListControllerTest {
     }
 
     @Test
-    public void onStart_failure_progressIndicationHidden() throws Exception {
+    public void onStart_failure_progressIndicationHidden() throws Exception
+    {
         // Arrange
         failure();
         // Act
@@ -76,7 +81,8 @@ public class QuestionsListControllerTest {
     }
 
     @Test
-    public void onStart_successfulResponse_questionsBoundToView() throws Exception {
+    public void onStart_successfulResponse_questionsBoundToView() throws Exception
+    {
         // Arrange
         success();
         // Act
@@ -86,7 +92,8 @@ public class QuestionsListControllerTest {
     }
 
     @Test
-    public void onStart_secondTimeAfterSuccessfulResponse_questionsBoundToTheViewFromCache() throws Exception {
+    public void onStart_secondTimeAfterSuccessfulResponse_questionsBoundToTheViewFromCache() throws Exception
+    {
         // Arrange
         success();
         // Act
@@ -98,7 +105,8 @@ public class QuestionsListControllerTest {
     }
 
     @Test
-    public void onStart_failure_errorToastShown() throws Exception {
+    public void onStart_failure_errorToastShown() throws Exception
+    {
         // Arrange
         failure();
         // Act
@@ -108,7 +116,8 @@ public class QuestionsListControllerTest {
     }
 
     @Test
-    public void onStart_failure_questionsNotBoundToView() throws Exception {
+    public void onStart_failure_questionsNotBoundToView() throws Exception
+    {
         // Arrange
         failure();
         // Act
@@ -118,7 +127,8 @@ public class QuestionsListControllerTest {
     }
 
     @Test
-    public void onStart_listenersRegistered() throws Exception {
+    public void onStart_listenersRegistered() throws Exception
+    {
         // Arrange
         // Act
         SUT.onStart();
@@ -128,7 +138,8 @@ public class QuestionsListControllerTest {
     }
 
     @Test
-    public void onStop_listenersUnregistered() throws Exception {
+    public void onStop_listenersUnregistered() throws Exception
+    {
         // Arrange
         // Act
         SUT.onStop();
@@ -138,7 +149,8 @@ public class QuestionsListControllerTest {
     }
 
     @Test
-    public void onQuestionClicked_navigatedToQuestionDetailsScreen() throws Exception {
+    public void onQuestionClicked_navigatedToQuestionDetailsScreen() throws Exception
+    {
         // Arrange
         // Act
         SUT.onQuestionClicked(QUESTION);
@@ -149,15 +161,18 @@ public class QuestionsListControllerTest {
 
     // region helper methods -----------------------------------------------------------------------
 
-    private void success() {
+    private void success()
+    {
         // currently no-op
     }
 
-    private void failure() {
+    private void failure()
+    {
         mUseCaseTd.mFailure = true;
     }
 
-    private List<Question> getExpectedQuestions() {
+    private List<Question> getExpectedQuestions()
+    {
         List<Question> questions = new LinkedList<>();
         questions.add(new Question("id1", "title1"));
         questions.add(new Question("id2", "title2"));
@@ -166,45 +181,59 @@ public class QuestionsListControllerTest {
     // endregion helper methods --------------------------------------------------------------------
 
     // region helper classes -----------------------------------------------------------------------
-    private static class UseCaseTd extends FetchLastActiveQuestionsUseCase {
+    private static class UseCaseTd extends FetchLastActiveQuestionsUseCase
+    {
 
         private boolean mFailure;
         private int mCallCount;
 
-        public UseCaseTd() {
+        public UseCaseTd()
+        {
             super(null);
         }
 
         @Override
-        public void fetchLastActiveQuestionsAndNotify() {
+        public void fetchLastActiveQuestionsAndNotify()
+        {
             mCallCount++;
-            for (FetchLastActiveQuestionsUseCase.Listener listener : getListeners()) {
-                if (mFailure) {
+            for (FetchLastActiveQuestionsUseCase.Listener listener : getListeners())
+            {
+                if (mFailure)
+                {
                     listener.onLastActiveQuestionsFetchFailed();
-                } else {
+                }
+                else
+                {
                     listener.onLastActiveQuestionsFetched(QUESTIONS);
                 }
             }
         }
 
-        public void verifyListenerRegistered(QuestionsListController candidate) {
-            for (FetchLastActiveQuestionsUseCase.Listener listener : getListeners()) {
-                if (listener == candidate) {
+        public void verifyListenerRegistered(QuestionsListController candidate)
+        {
+            for (FetchLastActiveQuestionsUseCase.Listener listener : getListeners())
+            {
+                if (listener == candidate)
+                {
                     return;
                 }
             }
             throw new RuntimeException("listener not registered");
         }
 
-        public void verifyListenerNotRegistered(QuestionsListController candidate) {
-            for (FetchLastActiveQuestionsUseCase.Listener listener : getListeners()) {
-                if (listener == candidate) {
+        public void verifyListenerNotRegistered(QuestionsListController candidate)
+        {
+            for (FetchLastActiveQuestionsUseCase.Listener listener : getListeners())
+            {
+                if (listener == candidate)
+                {
                     throw new RuntimeException("listener not registered");
                 }
             }
         }
 
-        public int getCallCount() {
+        public int getCallCount()
+        {
             return mCallCount;
         }
     }
