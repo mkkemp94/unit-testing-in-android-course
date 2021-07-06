@@ -188,7 +188,7 @@ public class QuestionsListControllerTest
         useCaseTd.failure = true;
     }
     // endregion helper methods
-    
+    //
     // region helper classes
     private static class FetchLastActiveQuestionsUseCaseTd extends FetchLastActiveQuestionsUseCase
     {
